@@ -1,0 +1,64 @@
+<div class="contact-area ptb-100">
+    <div class="container">
+      <div class="section-title">
+        <span class="sub-title">
+          <i class='bx bx-hash'></i>
+          Контакт
+        </span>
+        <h2>Пратете порака за било какво прашање</h2>
+      </div>
+      <div class="contact-form">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input formControlName="name" type="text" placeholder="Име" class="form-control">
+                <div *ngIf="contactForm.get('name').invalid && (contactForm.get('name').dirty || contactForm.get('name').touched)" class="text-danger">
+                  <div *ngIf="contactForm.get('name').errors.required">Името е задолжително.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input formControlName="email" type="email" placeholder="Email" class="form-control">
+                <div *ngIf="contactForm.get('email').invalid && (contactForm.get('email').dirty || contactForm.get('email').touched)" class="text-danger">
+                  <div *ngIf="contactForm.get('email').errors.required">Email е задолжителен.</div>
+                  <div *ngIf="contactForm.get('email').errors.email">Ве молиме внесете валиден email.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input formControlName="phone" type="text" placeholder="Телефон" class="form-control">
+                <div *ngIf="contactForm.get('phone').invalid && (contactForm.get('phone').dirty || contactForm.get('phone').touched)" class="text-danger">
+                  <div *ngIf="contactForm.get('phone').errors.required">Телефонот е задолжителен.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input formControlName="title" type="text" placeholder="Наслов" class="form-control">
+                <div *ngIf="contactForm.get('title').invalid && (contactForm.get('title').dirty || contactForm.get('title').touched)" class="text-danger">
+                  <div *ngIf="contactForm.get('title').errors.required">Насловот е задолжителен.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <textarea formControlName="message" cols="30" rows="5" required placeholder="Твојата порака" class="form-control"></textarea>
+                <div *ngIf="contactForm.get('message').invalid && (contactForm.get('message').dirty || contactForm.get('message').touched)" class="text-danger">
+                  <div *ngIf="contactForm.get('message').errors.required">Пораката е задолжителна.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Прати порака</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

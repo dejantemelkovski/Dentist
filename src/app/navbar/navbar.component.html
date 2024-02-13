@@ -1,0 +1,112 @@
+<div class="navbar-area sticky-top bg-light">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" routerLink="/home">
+                    <h1>ПЗУ Д-р Панче Зафиров</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" routerLink="patient">Пациенти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" routerLink="/service-details">Услуги и производи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" routerLink="/contact">Контакт</a>
+                        </li>                        
+                    </ul>
+                    <div class="others-option d-flex align-items-center">
+                        <div class="option-item me-3">
+                            <div class="search-btn">
+                                <i class='bx bx-search'></i>
+                            </div>
+                        </div>
+                        <div class="others-option d-flex align-items-center">
+                            <div class="option-item me-3">
+                                <div class="search-btn">
+                                    <i class='bx bx-search'></i>
+                                </div>
+                            </div>
+                            <a routerLink="/booking" class="btn btn-primary">Закажи преглед</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div *ngIf="showPatientList">
+    <h4>Листа на пациенти:</h4>
+    <table class="table" *ngIf="patients.length > 0" id="patientsTable">
+        <thead>
+            <tr>
+                <th>Име</th>
+                <th>Презиме</th>
+                <th>Дата на рагјање</th>
+                <th>Единствен број</th>
+                <th>Здравствено осигурување</th>
+                <th>Забелешка</th>
+                <th>Услуга</th>
+                <th>Акција</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let patient of patients; let i = index">
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.surname }}</td>
+                <td>{{ patient.dob | date }}</td>
+                <td>{{ patient.uin }}</td>
+                <td>{{ patient.healthInsuranceFund }}</td>
+                <td>{{ patient.note }}</td>
+                <td>{{ patient.service }}</td>
+                <td>
+                    <button type="button" class="btn btn-info me-2" (click)="editPatient(i)">Измени</button>
+                    <button type="button" class="btn btn-danger me-2" (click)="deletePatient(i)">Избриши</button>
+                    <button type="button" class="btn btn-primary" (click)="viewPatient(i)">Погледни</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="selectedPatient && editing" class="card" id="editForm">
+    <div class="card-header">
+        Измени детали за пациентот
+    </div>
+    <div class="card-body">
+        <form [formGroup]="editForm">
+            <label for="name">Име:</label>
+            <input type="text" id="name" formControlName="name" class="form-control">
+            
+            <div *ngIf="formControls.name.errors?.required && formControls.name.touched" class="text-danger">
+                Name is required.
+            </div>
+
+            <button type="button" class="btn btn-primary mt-3" [disabled]="editForm.invalid" (click)="saveChanges()">Зачувај</button>
+            <button type="button" class="btn btn-secondary mt-3 ms-2" (click)="cancelEdit()">Откажи</button>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="selectedPatient && !editing" class="card">
+    <div class="card-header">
+        Patient Details
+    </div>
+    <div class="card-body">
+        <p><strong>Име:</strong> {{ selectedPatient.name }}</p>
+        <p><strong>Презиме:</strong> {{ selectedPatient.surname }}</p>
+        <p><strong>Дата на раѓање:</strong> {{ selectedPatient.dateOfBirth | date }}</p>
+        <p><strong>ЕМБГ:</strong> {{ selectedPatient.uin }}</p>
+        <p><strong>Здравствено осигурување:</strong> {{ selectedPatient.healthInsuranceFund }}</p>
+        <p><strong>Забелешка:</strong> {{ selectedPatient.note }}</p>
+        <p><strong>Услуга:</strong> {{ selectedPatient.service }}</p>
+        <button type="button" class="btn btn-secondary" (click)="selectedPatient = null">Close</button>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<form class="my-4" [formGroup]="appointmentForm" (ngSubmit)="submitForm()">
+  <div class="mb-3">
+    <label for="name" class="form-label">Име:</label>
+    <input formControlName="name" type="text" class="form-control" id="name">
+    <div *ngIf="appointmentForm.get('name').invalid && appointmentForm.get('name').touched" class="text-danger">Името е задолжително.</div>
+  </div>
+  <div class="mb-3">
+    <label for="surname" class="form-label">Презиме:</label>
+    <input formControlName="surname" type="text" class="form-control" id="surname">
+    <div *ngIf="appointmentForm.get('surname').invalid && appointmentForm.get('surname').touched" class="text-danger">Презимето е задолжително.</div>
+  </div>
+  <div class="mb-3">
+    <label for="dob" class="form-label">Дата на рагјање:</label>
+    <input formControlName="dob" type="date" class="form-control" id="dob">
+    <div *ngIf="appointmentForm.get('dob').invalid && appointmentForm.get('dob').touched" class="text-danger">Датумот на рагјање е задолжителен.</div>
+  </div>
+  <div class="mb-3">
+    <label for="uin" class="form-label">Единствен број:</label>
+    <input formControlName="uin" type="text" class="form-control" id="uin">
+    <div *ngIf="appointmentForm.get('uin').invalid && appointmentForm.get('uin').touched" class="text-danger">Единствениот број е задолжителен.</div>
+  </div>
+  <div class="mb-3">
+    <label for="healthInsuranceFund" class="form-label">Здравствено осигурување:</label>
+    <input formControlName="healthInsuranceFund" type="text" class="form-control" id="healthInsuranceFund">
+    <div *ngIf="appointmentForm.get('healthInsuranceFund').invalid && appointmentForm.get('healthInsuranceFund').touched" class="text-danger">Здравственото осигурување е задолжително.</div>
+  </div>
+  <div class="mb-3">
+    <label for="note" class="form-label">Забелешка:</label>
+    <textarea formControlName="note" class="form-control" id="note" rows="3"></textarea>
+    <div *ngIf="appointmentForm.get('note').invalid && appointmentForm.get('note').touched" class="text-danger">Забелешката е задолжителна.</div>
+  </div>
+  <div class="mb-3">
+    <label for="service" class="form-label">Услуга:</label>
+    <select formControlName="service" class="form-select" id="service">
+      <option value="" disabled selected>Избери Услуга</option>
+      <option value="Teeth Cleaning">Чистење на заби</option>
+      <option value="Checkup">Преглед</option>
+      <option value="Filling">Пополнување</option>
+    </select>
+    <div *ngIf="appointmentForm.get('service').invalid && appointmentForm.get('service').touched" class="text-danger">Услугата е задолжителна.</div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!appointmentForm.valid">{{ isEditing ? 'Зачувај' : 'Закажи' }}</button>
+  <button type="button" class="btn btn-secondary" *ngIf="isEditing" (click)="cancelEdit()">Откажи</button>
+</form>
+
+<table class="table" *ngIf="appointments.length > 0" id="appointmentsTable">
+  <thead>
+    <tr>
+      <th>Име</th>
+      <th>Презиме</th>
+      <th>Дата на рагјање</th>
+      <th>Единствен број</th>
+      <th>Здравствено осигурување</th>
+      <th>Забелешка</th>
+      <th>Услуга</th>
+      <th>Акција</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appointment of appointments; let i = index">
+      <td>{{ appointment.name }}</td>
+      <td>{{ appointment.surname }}</td>
+      <td>{{ appointment.dob }}</td>
+      <td>{{ appointment.uin }}</td>
+      <td>{{ appointment.healthInsuranceFund }}</td>
+      <td>{{ appointment.note }}</td>
+      <td>{{ appointment.service }}</td>
+      <td>
+        <button type="button" class="btn btn-info me-2" (click)="editAppointment(i)">Измени</button>
+        <button type="button" class="btn btn-danger" (click)="deleteAppointment(i)">Избриши</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

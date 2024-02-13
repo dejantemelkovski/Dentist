@@ -1,0 +1,74 @@
+<h4>Листа на пациенти:</h4>
+<table class="table" *ngIf="patients.length > 0" id="patientsTable">
+  <thead>
+    <tr>
+      <th>Име</th>
+      <th>Презиме</th>
+      <th>Дата на раѓање</th>
+      <th>ЕМБГ</th>
+      <th>Здравствено осигурување</th>
+      <th>Забелешка</th>
+      <th>Услуга</th>
+      <th>Акција</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let patient of patients; let i = index">
+      <td>{{ patient.name }}</td>
+      <td>{{ patient.surname }}</td>
+      <td>{{ patient.dob | date }}</td>
+      <td>{{ patient.uin }}</td>
+      <td>{{ patient.healthInsuranceFund }}</td>
+      <td>{{ patient.note }}</td>
+      <td>{{ patient.service }}</td>
+      <td>
+        <button type="button" class="btn btn-info me-2" (click)="editPatient(i)">Измени</button>
+        <button type="button" class="btn btn-danger me-2" (click)="deletePatient(i)">Избриши</button>
+        <button type="button" class="btn btn-primary" (click)="viewPatient(i)">Погледни</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  
+    <div *ngIf="selectedPatient && editing" class="card" id="editForm">
+      <div class="card-header">
+        Измени детали за пациентот
+      </div>
+      <div class="card-body">
+        <label for="name">Име:</label>
+        <input type="text" id="name" [(ngModel)]="selectedPatient.name" class="form-control">
+        <label for="surname">Презиме:</label>
+        <input type="text" id="surname" [(ngModel)]="selectedPatient.surname" class="form-control">
+        <label for="dateOfBirth">Дата на раѓање:</label>
+        <input type="date" id="dateOfBirth" [(ngModel)]="selectedPatient.dateOfBirth" class="form-control">
+        <label for="uin">ЕМБГ:</label>
+        <input type="text" id="uin" [(ngModel)]="selectedPatient.uin" class="form-control">
+        <label for="healthInsuranceFund">Здравствено осигурување:</label>
+        <input type="text" id="healthInsuranceFund" [(ngModel)]="selectedPatient.healthInsuranceFund" class="form-control">
+        <label for="note">Забелешка:</label>
+        <textarea id="note" [(ngModel)]="selectedPatient.note" class="form-control"></textarea>
+        <label for="service">Услуга:</label>
+        <input type="text" id="service" [(ngModel)]="selectedPatient.service" class="form-control">
+  
+        <button type="button" class="btn btn-primary mt-3" (click)="saveChanges()">Зачувај</button>
+        <button type="button" class="btn btn-secondary mt-3 ms-2" (click)="cancelEdit()">Откажи</button>
+      </div>
+    </div>
+  
+    <div *ngIf="selectedPatient && !editing" class="card">
+      <div class="card-header">
+        Детали за пациентот
+      </div>
+      <div class="card-body">
+        <p><strong>Име:</strong> {{ selectedPatient.name }}</p>
+        <p><strong>Презиме:</strong> {{ selectedPatient.surname }}</p>
+        <p><strong>Дата на раѓање:</strong> {{ selectedPatient.dateOfBirth | date }}</p>
+        <p><strong>ЕМБГ:</strong> {{ selectedPatient.uin }}</p>
+        <p><strong>Здравствено осигурување:</strong> {{ selectedPatient.healthInsuranceFund }}</p>
+        <p><strong>Забелешка:</strong> {{ selectedPatient.note }}</p>
+        <p><strong>Услуга:</strong> {{ selectedPatient.service }}</p>
+        <button type="button" class="btn btn-secondary" (click)="selectedPatient = null">Затвори</button>
+      </div>
+    </div>
+  
