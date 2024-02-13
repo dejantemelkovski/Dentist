@@ -16,6 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
+                <!-- Содржина за деталите на услугата -->
                 <div class="service-details-image">
                     <img src="assets/images/services-details.jpg" class="img-fluid" alt="Детали за услугата">
                 </div>
@@ -65,9 +66,40 @@
                 </p>
             </div>
             <div class="col-lg-4">
+                <!-- Пациентски слайдер -->
                 <div class="sidebar">
+                    <h3>Постоечки пациенти</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let patient of patients">
+                            <button class="btn btn-link" (click)="selectPatient(patient)">{{ patient.name }} {{ patient.surname }}</button>
+                        </li>
+                    </ul>
+                    <hr>
+                    <h3>Детали за одбраниот пациент</h3>
+                    <div *ngIf="selectedPatient">
+                        <p><strong>Име:</strong> {{ selectedPatient.name }} {{ selectedPatient.surname }}</p>
+                        <p><strong>Дата на раѓање:</strong> {{ selectedPatient.dateOfBirth | date }}</p>
+                        <p><strong>ЕГН:</strong> {{ selectedPatient.uin }}</p>
+                        <p><strong>Фонд на здравствено осигурување:</strong> {{ selectedPatient.healthInsuranceFund }}</p>
+                        <p><strong>Забелешка:</strong> {{ selectedPatient.note }}</p>
+                        <p><strong>Услуга:</strong> {{ selectedPatient.service }}</p>
+                    </div>
+                    <form *ngIf="editing" (ngSubmit)="saveChanges()">
+                        <h3>Уреди ги деталите за пациентот</h3>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Име:</label>
+                            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="selectedPatient.name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">Презиме:</label>
+                            <input type="text" class="form-control" id="surname" name="surname" [(ngModel)]="selectedPatient.surname">
+                        </div>
+                        <!-- Додајте други полиња за уредување -->
+                        <button type="submit" class="btn btn-primary">Зачувај промени</button>
+                        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Откажи</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 </section>
